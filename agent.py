@@ -1,3 +1,4 @@
+from environment import TradingMarket
 class TradingAgent:
 
     def __init__(self, budget ):
@@ -6,6 +7,12 @@ class TradingAgent:
 
         self._budget = budget
 
-    # def makeDecision(self, currentPrice):
-    #
-    # def act(self, currentPrice):
+
+     def makeDecision(self, currentPrice):
+
+
+
+
+    def act(self, currentPrice):
+
+    def sensor(self, TradingMarket):
