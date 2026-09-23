@@ -1,7 +1,7 @@
 from price_simulator import PriceSimulator
 
 class TradingMarket:
-    def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, agent):
+    def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, agent, initialBudget):
 
         if  not isinstance(startingPrice, int or float):
             raise ValueError("Price should be an integer or float")
@@ -17,10 +17,14 @@ class TradingMarket:
         self._priceSimulator = PriceSimulator(seed, startingPrice, weights, minimalRegimeDuration, maximumRegimeDuration)
         startPrice = self._priceSimulator.currentPrice
         self._history = [startPrice]
+        self._budget = initialBudget
+
+        self._holdings = 0
+        self._ticksCounter = 0
 
 
-        self._priceSimulator = PriceSimulator(seed, startingPrice, weights, minimalRegimeDuration, maximumRegimeDuration)
-        self._agent = agent
+
+
 
     def update(self, newPrice):
         self._currentPrice = newPrice
