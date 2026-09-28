@@ -1,7 +1,10 @@
 from agent import TradingAgent
 from environment import TradingMarket
 
-def TradingSession():
-    environment = TradingMarket(9, 200, 500, 150, {"uptrend" : 1, "downtrend" : 1, "sideway": 1}, 100, 500)
-    agent = TradingAgent(1000,)
-    while True:
+def main():
+    a = TradingAgent(windowLen=3, k=0.5)
+    for p in [100, 100, 100]:
+        a.makeDecision({"price": p, "budget": 1000, "holdings": 0, "ath": 200, "atl": 50})
+    print(a.makeDecision({"price": 90, "budget": 1000, "holdings": 0, "ath": 200, "atl": 50}))
+
+main()
