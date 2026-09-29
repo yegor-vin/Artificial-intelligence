@@ -3,7 +3,7 @@ from statistics import fmean, pstdev
 
 class TradingAgent:
 
-    def __init__(self, windowLen = 150, k = 1, minMargin = 0.03):
+    def __init__(self, windowLen = 70, k = 1, minMargin = 0.03):
         self._window = deque(maxlen = windowLen)
         self._k = k
         self._minMargin = minMargin
@@ -28,7 +28,6 @@ class TradingAgent:
         if len(self._window) < self._window.maxlen:
             return "hold"
 
-
         mu = fmean(self._window)
         sigma = pstdev(self._window)
         inDemandZone = (sigma > 0 and price < mu - self._k * sigma)
@@ -45,9 +44,8 @@ class TradingAgent:
 
 
 
-        elif holdings > 0 and price > self._averageBuyPrice * (1 + self._minMargin) and isBetterPriceToSell:
+        if holdings > 0 and price > self._averageBuyPrice * (1 + self._minMargin) and isBetterPriceToSell:
             self._lastSellPrice = price
-            self._lastBuyPrice = self._averageBuyPrice * (1 - self._minMargin)
             return "sell"
 
         return "hold"

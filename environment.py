@@ -3,7 +3,7 @@ from priceSimulator import PriceSimulator
 class TradingMarket:
     def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, initialBudget):
 
-        if  not isinstance(startingPrice, int or float):
+        if  not isinstance(startingPrice, (int, float)):
             raise ValueError("Price should be an integer or float")
 
         if startingPrice > ath:

@@ -1,3 +1,5 @@
+from traceback import print_tb
+
 import resultVizualization
 from agent import TradingAgent
 from environment import TradingMarket
@@ -5,9 +7,9 @@ from actuator import Actuator
 from resultVizualization import plot_trading_session
 def main():
     a = TradingAgent(k=0.5)
-    env = TradingMarket(18, 270, 574, 165, {"uptrend": 1, "downtrend": 1, "sideway": 1}, 50, 150, 1000)
+    env = TradingMarket(43, 120, 574, 64, {"uptrend": 2, "downtrend": 1, "sideway": 3}, 50, 150, 1000)
     actuator = Actuator(env)
-    for _ in range(12500):
+    for _ in range(7000):
         env.tick()
         perception = env.getPerception()
         action = a.makeDecision(perception)
@@ -16,12 +18,12 @@ def main():
         if env.isBunkrupt():
             break
 
-    # while not env._holdings == 0:
-    #     env.tick()
-    #     perception = env.getPerception()
-    #     action = a.makeDecision(perception)
-    #     actuator.act(action)
-    print(a._lastBuyPrice)
+    while not env._holdings == 0:
+        env.tick()
+        perception = env.getPerception()
+        action = a.makeDecision(perception)
+        actuator.act(action)
+
 
 
     return plot_trading_session(env.getHistory(), env.tradeLog(), env.displayPortfolio(), env.getInitialBduget(), env.getHoldings())
