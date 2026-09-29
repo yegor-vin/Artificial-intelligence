@@ -1,7 +1,7 @@
-from price_simulator import PriceSimulator
+from priceSimulator import PriceSimulator
 
 class TradingMarket:
-    def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, agent, initialBudget):
+    def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, initialBudget):
 
         if  not isinstance(startingPrice, int or float):
             raise ValueError("Price should be an integer or float")
@@ -24,7 +24,7 @@ class TradingMarket:
 
         self._holdings = 0
         self._ticksCounter = 0
-
+        self._initialBudget = initialBudget
         self._tradeLog = []
 
 
@@ -44,18 +44,19 @@ class TradingMarket:
             "atl": self._atl,
             "budget": self._budget,
             "holdings": self._holdings
-    
+
 
         }
 
     def applyAction(self, action):
+
         if action == "buy" and self._budget >= self._currentPrice:
             self._holdings += 1
             self._budget -= self._currentPrice
             self._tradeLog.append((self._ticksCounter, action, self._currentPrice))
             return 1
 
-        elif action == "sell" and self._holdings >= 0:
+        elif action == "sell" and self._holdings > 0:
             self._holdings -= 1
             self._budget += self._currentPrice
             self._tradeLog.append((self._ticksCounter, action, self._currentPrice))
@@ -66,11 +67,20 @@ class TradingMarket:
     def isBunkrupt(self):
         return self._budget <=  0 and self._holdings == 0
 
-    def dispayPortfolio(self):
+    def displayPortfolio(self):
         return self._budget + self._holdings * self._currentPrice
 
     def tradeLog(self):
         return self._tradeLog
+
+    def getHistory(self):
+        return self._history
+
+    def getInitialBduget(self):
+        return self._initialBudget
+
+    def getHoldings(self):
+        return self._holdings
 
 
 

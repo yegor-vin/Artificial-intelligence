@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from price_simulator import PriceSimulator
+from priceSimulator import PriceSimulator
 
 def simulate_path(seed, sim_config, n_ticks=500):
     sim = PriceSimulator(seed=seed, **sim_config)

@@ -1,10 +1,21 @@
+import resultVizualization
 from agent import TradingAgent
 from environment import TradingMarket
-
+from actuator import Actuator
+from resultVizualization import plot_trading_session
 def main():
-    a = TradingAgent(windowLen=3, k=0.5)
-    for p in [100, 100, 100]:
-        a.makeDecision({"price": p, "budget": 1000, "holdings": 0, "ath": 200, "atl": 50})
-    print(a.makeDecision({"price": 90, "budget": 1000, "holdings": 0, "ath": 200, "atl": 50}))
+    a = TradingAgent(k=0.5)
+    env = TradingMarket(19, 200, 259, 165, {"uptrend": 1, "downtrend": 1, "sideway": 3}, 50, 150, 1000)
+    actuator = Actuator(env)
+    for _ in range(8000):
+        env.tick()
+        perception = env.getPerception()
+        action = a.makeDecision(perception)
+        actuator.act(action)
+        if env.isBunkrupt():
+            break
+    return plot_trading_session(env.getHistory(), env.tradeLog(), env.displayPortfolio(), env.getInitialBduget(), env.getHoldings())
+
+
 
 main()

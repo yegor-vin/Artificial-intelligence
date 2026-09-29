@@ -3,7 +3,7 @@ from statistics import fmean, pstdev
 
 class TradingAgent:
 
-    def __init__(self, windowLen = 50, k = 1, minMargin = 0.01):
+    def __init__(self, windowLen = 50, k = 1, minMargin = 0.03):
         self._window = deque(maxlen = windowLen)
         self._k = k
         self._minMargin = minMargin
@@ -28,14 +28,22 @@ class TradingAgent:
         if len(self._window) < self._window.maxlen:
             return "hold"
 
+
         mu = fmean(self._window)
         sigma = pstdev(self._window)
         inDemandZone = (sigma > 0 and price < mu - self._k * sigma)
-        isBetterPriceToBuy = (price < self._lastBuyPrice or price <= atl or self._lastBuyPrice == 0)
-        isBetterPriceToSell = (price > self._lastSellPrice or price >= ath or self._lastSellPrice == 0)
+        inSupplyZone = (sigma > 0 and price > mu + self._k * sigma)
 
-        if inDemandZone and isBetterPriceToBuy and budget >= price:
-            self._averageBuyPrice + (holdings * self._averageBuyPrice + price) / (holdings +1)
+        if inDemandZone:
+            self._lastSellPrice = price
+
+
+        isBetterPriceToBuy = (price < self._lastBuyPrice * (1 - self._minMargin) or price <= atl or self._lastBuyPrice == 0)
+        isBetterPriceToSell = (price > self._lastSellPrice * (1 + self._minMargin) or price >= ath or self._lastSellPrice == 0)
+
+
+        if inDemandZone and isBetterPriceToBuy and budget >= price and not inSupplyZone:
+            self._averageBuyPrice = (holdings * self._averageBuyPrice + price) / (holdings +1)
             self._lastBuyPrice = price
             self._lastSellPrice = mu + self._k * sigma
             return "buy"

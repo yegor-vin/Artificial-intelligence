@@ -3,8 +3,8 @@ import math
 
 class PriceSimulator:
     regimes = {
-        "uptrend": {"mu": 0.006, "sigma": 0.01},
-        "downtrend": {"mu": -0.006, "sigma": 0.01},
+        "uptrend": {"mu": 0.0006, "sigma": 0.01},
+        "downtrend": {"mu": -0.0006, "sigma": 0.01},
         "sideway": {"mu": 0, "sigma": 0.006}
     }
 
