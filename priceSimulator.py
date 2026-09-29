@@ -8,13 +8,15 @@ class PriceSimulator:
         "sideway": {"mu": 0, "sigma": 0.006}
     }
 
-    def __init__(self, seed, startingPrice, regimeWeight = None, minimalRegimeDuration = 50, maximalRegimeDuration = 200,):
+    def __init__(self, seed, startingPrice, regimeWeight = None, minimalRegimeDuration = 50, maximalRegimeDuration = 200):
         if startingPrice <= 0:
             raise ValueError("starting price must be positive")
         if minimalRegimeDuration <= 0 or maximalRegimeDuration < minimalRegimeDuration:
             raise ValueError("invalid regime duration bounds")
 
         self._randomNumberGenerator = random.Random(seed);
+        self._ltm = startingPrice
+        self._theta = 0.0002
         self._dt = 1.0
         self._minimalRegimeDuration = minimalRegimeDuration
         self._maximalRegimeDuration = maximalRegimeDuration
@@ -51,10 +53,11 @@ class PriceSimulator:
 
         params = self.regimes[self._regime]
         z = self._randomNumberGenerator.gauss(0, 1)
+        reversion = self._theta * (self._ltm - self.currentPrice) / self._ltm
 
-        # log-return update — price stays strictly positive by construction
         log_return = (
                 (params["mu"] - 0.5 * params["sigma"] ** 2) * self._dt
+                + reversion * self._dt
                 + params["sigma"] * math.sqrt(self._dt) * z
         )
         self.currentPrice *= math.exp(log_return)
