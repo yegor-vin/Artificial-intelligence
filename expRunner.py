@@ -1,11 +1,8 @@
-from traceback import print_tb
-
-import resultVizualization
 from agent import TradingAgent
 from environment import TradingMarket
 from actuator import Actuator
 from resultVizualization import plot_trading_session
-def main():
+def runExp(configWeights):
     a = TradingAgent(k=0.5)
     env = TradingMarket(43, 120, 574, 64, {"uptrend": 2, "downtrend": 1, "sideway": 3}, 50, 150, 1000)
     actuator = Actuator(env)
@@ -30,4 +27,4 @@ def main():
 
 
 
-main()
+
