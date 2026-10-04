@@ -3,8 +3,11 @@ from priceSimulator import PriceSimulator
 class TradingMarket:
     def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, initialBudget):
 
-        if  not isinstance(startingPrice, (int, float)):
+        if not isinstance(startingPrice, (int, float)):
             raise ValueError("Price should be an integer or float")
+
+        if atl > ath:
+            atl, ath = ath, atl
 
         if startingPrice > ath:
             self._ath = startingPrice
@@ -63,9 +66,6 @@ class TradingMarket:
             return -1
 
         return 0
-
-    def isBunkrupt(self):
-        return self._budget <=  0 and self._holdings == 0
 
     def getPortfolio(self):
         return self._budget + self._holdings * self._currentPrice

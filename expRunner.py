@@ -3,54 +3,35 @@ from environment import TradingMarket
 from actuator import Actuator
 from resultVizualization import plot_trading_session
 from agent2 import BaseAgent
+from sensor import Sensor
+from operator import itemgetter
 
-def runExpTradingAgent(configWeights, configName):
-    a = TradingAgent(k=0.5)
-    env = TradingMarket(43, 120, 574, 64, configWeights, 50, 150, 1000)
+def runExp(agent,configWeights, configName, tradingConfigs, ticks=8000):
+    startingPrice, ath, atl, minimalRegimeDuration, maximumRegimeDuration, initialBudget, seed = itemgetter("startingPrice",
+                                                                                                      "ath",
+                                                                                                      "atl",
+                                                                                                      "minimalRegimeDuration",
+                                                                                                      "maximumRegimeDuration",
+                                                                                                      "initialBudget", "seed")(tradingConfigs)
+    env = TradingMarket(seed, startingPrice, ath, atl, configWeights, minimalRegimeDuration, maximumRegimeDuration, initialBudget)
+    sensor = Sensor(env)
     actuator = Actuator(env)
-    for _ in range(7000):
+
+    for _ in range(ticks):
         env.tick()
-        perception = env.getPerception()
-        action = a.makeDecision(perception)
+        perception = sensor.sense()
+        action = agent.makeDecision(perception)
         actuator.act(action)
-
-        if env.isBunkrupt():
-            break
-
-    while not env._holdings == 0:
-        env.tick()
-        perception = env.getPerception()
-        action = a.makeDecision(perception)
-        actuator.act(action)
-
 
     profit = env.getPortfolio() - env.getInitialBudget()
     plot_trading_session(env.getHistory(), env.tradeLog(), env.getPortfolio(), env.getInitialBudget(), configName)
     return profit
 
-def runExpBaseAgent(configWeights, configName):
-    a = BaseAgent()
-    env = TradingMarket(43, 120, 574, 64, configWeights, 50, 150, 1000)
-    actuator = Actuator(env)
-    for _ in range(7000):
-        env.tick()
-        perception = env.getPerception()
-        action = a.makeDecision(perception)
-        actuator.act(action)
 
-        if env.isBunkrupt():
-            break
+def runExpTradingAgent(configWeights, configName, windowLen, tradingConfigs):
+    return runExp(TradingAgent(windowLen=windowLen,k=0.5),configWeights, configName, tradingConfigs)
 
-    while not env._holdings == 0:
-        env.tick()
-        perception = env.getPerception()
-        action = a.makeDecision(perception)
-        actuator.act(action)
-    profit = env.getPortfolio() - env.getInitialBudget()
-    plot_trading_session(env.getHistory(), env.tradeLog(), env.getPortfolio(), env.getInitialBudget(), configName)
-    return profit
-
-
-
+def runExpBaseAgent(configWeights, configName, tradingConfigs):
+    return runExp(BaseAgent(),configWeights, configName, tradingConfigs)
 
 

@@ -27,3 +27,4 @@ def plot_trading_session(price_history, trade_log, final_portfolio, initial_budg
     plt.legend()
     plt.tight_layout()
     plt.savefig(f"{title.replace(' ', '_')}.png")
+    plt.close()

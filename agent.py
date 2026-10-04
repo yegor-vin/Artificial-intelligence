@@ -3,7 +3,7 @@ from statistics import fmean, pstdev
 
 class TradingAgent:
 
-    def __init__(self, windowLen = 70, k = 1, minMargin = 0.03):
+    def __init__(self, windowLen, k = 1, minMargin = 0.03):
         self._window = deque(maxlen = windowLen)
         self._k = k
         self._minMargin = minMargin
