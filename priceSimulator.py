@@ -2,6 +2,10 @@ import random
 import math
 
 class PriceSimulator:
+    """Generates prices: geometric Brownian motion whose drift and volatility depend on
+       a hidden regime. Each regime lasts a random number of ticks, then a new one is drawn
+       by weight. A weak mean-reversion term pulls the price toward the starting price.
+       One random.Random(seed) makes every run reproducible."""
     regimes = {
         "uptrend": {"mu": 0.0006, "sigma": 0.01},
         "downtrend": {"mu": -0.0006, "sigma": 0.01},

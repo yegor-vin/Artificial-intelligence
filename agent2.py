@@ -1,5 +1,6 @@
 class BaseAgent:
-
+    """Baseline reflex agent: buys after a price drop, sells after a price rise.
+      Remembers only the previous price, with no notion of trend, volatility or profit."""
     def __init__(self):
         self._previousPrice = 0
 

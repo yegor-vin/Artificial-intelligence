@@ -1,6 +1,8 @@
 from priceSimulator import PriceSimulator
 
 class TradingMarket:
+    """Environment: holds the true state of the market (price, ATH/ATL, budget,
+        holdings, trade log). The hidden regime lives in PriceSimulator."""
     def __init__(self, seed,  startingPrice, ath, atl, weights, minimalRegimeDuration, maximumRegimeDuration, initialBudget):
 
         if not isinstance(startingPrice, (int, float)):
@@ -52,20 +54,21 @@ class TradingMarket:
         }
 
     def applyAction(self, action):
-
+        """Execute buy/sell/hold. Impossible actions (buy without money,
+                sell without holdings) are ignored."""
         if action == "buy" and self._budget >= self._currentPrice:
             self._holdings += 1
             self._budget -= self._currentPrice
             self._tradeLog.append((self._ticksCounter, action, self._currentPrice))
-            return 1
+            return
 
         elif action == "sell" and self._holdings > 0:
             self._holdings -= 1
             self._budget += self._currentPrice
             self._tradeLog.append((self._ticksCounter, action, self._currentPrice))
-            return -1
+            return
 
-        return 0
+        return
 
     def getPortfolio(self):
         return self._budget + self._holdings * self._currentPrice
