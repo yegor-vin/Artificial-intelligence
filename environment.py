@@ -67,7 +67,7 @@ class TradingMarket:
     def isBunkrupt(self):
         return self._budget <=  0 and self._holdings == 0
 
-    def displayPortfolio(self):
+    def getPortfolio(self):
         return self._budget + self._holdings * self._currentPrice
 
     def tradeLog(self):
@@ -76,11 +76,9 @@ class TradingMarket:
     def getHistory(self):
         return self._history
 
-    def getInitialBduget(self):
+    def getInitialBudget(self):
         return self._initialBudget
 
-    def getHoldings(self):
-        return self._holdings
 
 
 

@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def plot_trading_session(price_history, trade_log, final_portfolio, initial_budget, holdings, title="Trading Session"):
+def plot_trading_session(price_history, trade_log, final_portfolio, initial_budget, title):
     """
     price_history: list of prices, one per tick (index = tick number)
     trade_log: list of (tick, action, price) tuples, e.g. from env.trade_log()
@@ -21,10 +21,9 @@ def plot_trading_session(price_history, trade_log, final_portfolio, initial_budg
     plt.scatter(sell_ticks, sell_prices, color="red", marker="v", s=50,
                 label="Sell", zorder=3)
 
-    plt.title(f"{title} — Portfolio: initial {initial_budget:.2f}, final {final_portfolio:.2f}, holdings left {holdings}")
+    plt.title(f"{title} — Portfolio: initial {initial_budget:.2f}, final {final_portfolio:.2f}, profit {final_portfolio - initial_budget:.2f}")
     plt.xlabel("Tick")
     plt.ylabel("Price")
     plt.legend()
     plt.tight_layout()
     plt.savefig(f"{title.replace(' ', '_')}.png")
-    plt.show()
