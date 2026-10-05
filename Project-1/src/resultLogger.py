@@ -9,6 +9,7 @@ RUN_COLUMNS = ["config", "agent", "seed", "ticks", "seconds", "profit",
 
 def startLog():
     os.makedirs(os.path.join(RESULTS_DIR, "trades"), exist_ok=True)
+    os.makedirs(os.path.join(RESULTS_DIR, "graphics"), exist_ok=True)
     with open(RUNS_FILE, "w", newline="") as f:
         csv.writer(f).writerow(RUN_COLUMNS)
 

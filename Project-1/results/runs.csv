@@ -1,9 +1,9 @@
 config,agent,seed,ticks,seconds,profit,finalPortfolio,cashAtEnd,holdingsAtEnd,buys,sells
-config0-trading-agent,TradingAgent,45,8000,0.3183,275.38,1075.38,228.43,4,20,16
-config0-base-agent,BaseAgent,45,8000,0.0054,-22.03,777.97,777.97,0,3351,3351
-config1-trading-agent,TradingAgent,45,8000,0.3477,360.46,1160.46,456.51,3,21,18
-config1-base-agent,BaseAgent,45,8000,0.0067,152.38,952.38,952.38,0,3444,3444
-config2-trading-agent,TradingAgent,45,8000,0.3472,396.26,1196.26,331.84,3,19,16
-config2-base-agent,BaseAgent,45,8000,0.0053,129.89,929.89,929.89,0,3276,3276
-config3-trading-agent,TradingAgent,45,8000,0.3463,363.17,1163.17,6.55,3,18,15
-config3-base-agent,BaseAgent,45,8000,0.0054,111.56,911.56,911.56,0,3190,3190
+config0-trading-agent,TradingAgent,44,8000,0.3287,-46.72,753.28,0.26,7,8,1
+config0-base-agent,BaseAgent,44,8000,0.0056,-214.24,585.76,155.47,4,3400,3396
+config1-trading-agent,TradingAgent,44,8000,0.3459,-96.73,703.27,0.4,6,8,2
+config1-base-agent,BaseAgent,44,8000,0.0068,-144.19,655.81,304.37,3,3367,3364
+config2-trading-agent,TradingAgent,44,8000,0.3358,167.44,967.44,967.44,0,9,9
+config2-base-agent,BaseAgent,44,8000,0.0054,106.97,906.97,352.6,3,3360,3357
+config3-trading-agent,TradingAgent,44,8000,0.3341,812.11,1612.11,711.34,3,35,32
+config3-base-agent,BaseAgent,44,8000,0.0073,-47.26,752.74,152.22,2,2942,2940
